@@ -84,6 +84,23 @@ Before you start, ensure the following tools are installed:
 6. Retrieve Results: Use a GET request to retrieve the calculation results.
     ```bash
     curl http://127.0.0.1:5000/result/<MQTT topic ID>
+## MQTT Configuration
+
+All MQTT settings, including broker details and topic configurations, are managed in the `config.py` file.
+
+### How to Configure MQTT Topics
+
+Open the `config.py` file, update MQTT_INPUT_TOPIC_BASE to your desired input topic, update MQTT_OUTPUT_TOPIC_BASE to your desired output topic.
+   ```python
+   # config.py
+
+   # MQTT Broker configuration
+   BROKER = "test.mosquitto.org"
+   PORT = 1883
+
+   # MQTT Topic Configuration
+   MQTT_INPUT_TOPIC_BASE = "BRE/calculateWinterSupplementInput"
+   MQTT_OUTPUT_TOPIC_BASE = "BRE/calculateWinterSupplementOutput"
 ## Testing
 Tests are implemented using the `unittest` framework. To execute them, run:
 

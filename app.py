@@ -16,12 +16,7 @@ import json
 from flask import Flask, request, jsonify
 import paho.mqtt.client as mqtt
 from supplement_calculator import calculate_supplement
-
-# MQTT Configuration
-BROKER = "test.mosquitto.org"
-PORT = 1883
-MQTT_INPUT_TOPIC_BASE = "BRE/calculateWinterSupplementInput"
-MQTT_OUTPUT_TOPIC_BASE = "BRE/calculateWinterSupplementOutput"
+from config import MQTT_INPUT_TOPIC_BASE, MQTT_OUTPUT_TOPIC_BASE, BROKER, PORT
 
 # Flask App
 app = Flask(__name__)

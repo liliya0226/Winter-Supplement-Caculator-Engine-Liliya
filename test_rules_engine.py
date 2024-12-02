@@ -17,6 +17,7 @@ import unittest
 from flask import json
 from app import app
 from app import results
+from config import MQTT_INPUT_TOPIC_BASE, MQTT_OUTPUT_TOPIC_BASE
 
 class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
     def setUp(self):
@@ -60,8 +61,8 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
             Simulates publishing to input/output MQTT topics and updates the `results` dictionary.
         """
         topic_id = input_data["id"]
-        input_topic = f"BRE/calculateWinterSupplementInput/{topic_id}"
-        output_topic = f"BRE/calculateWinterSupplementOutput/{topic_id}"
+        input_topic = f"{MQTT_INPUT_TOPIC_BASE}/{topic_id}"
+        output_topic = f"{MQTT_OUTPUT_TOPIC_BASE}/{topic_id}"
 
         # Simulate input topic publish
         self.mock_client.publish(input_topic, json.dumps(input_data))
@@ -92,15 +93,16 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
+
     def test_single_person_with_one_child_eligible(self):
         # Test Case: Single Individual with One Child (Eligible)
         input_data = {
@@ -121,13 +123,13 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
 
@@ -151,18 +153,17 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
 
 
-   
     def test_couple_no_children_eligible(self):
         # Test Case: Couple with No Children (Eligible)
         input_data = {
@@ -183,15 +184,16 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
+
     def test_single_person_with_one_child_not_eligible(self):
         # Test Case: Single Individual with One Child (Not Eligible)
         input_data = {
@@ -212,15 +214,16 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
+
     def test_single_person_no_children_not_eligible(self):
         # Test Case: Single Individual with No Children (Not Eligible)
         input_data = {
@@ -241,19 +244,18 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
 
-
     def test_couple_with_children_not_eligible(self):
-        # 夫妻有子女，不符合领取资格
+        # Test Case: Couple with Children (Not Eligible)
         input_data = {
             "id": "test16",
             "numberOfChildren": 2,
@@ -272,13 +274,13 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
 
@@ -303,13 +305,13 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
 
@@ -346,13 +348,13 @@ class TestFlaskMQTTIntegrationWithMagicMock(unittest.TestCase):
 
         # Validate input topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementInput/{input_data['id']}",
+            f"{MQTT_INPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(input_data)
         )
 
         # Validate output topic publish
         self.mock_client.publish.assert_any_call(
-            f"BRE/calculateWinterSupplementOutput/{input_data['id']}",
+            f"{MQTT_OUTPUT_TOPIC_BASE}/{input_data['id']}",
             json.dumps(expected_result)
         )
 
