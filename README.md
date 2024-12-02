@@ -42,23 +42,31 @@ Before you start, ensure the following tools are installed:
    ```bash
    git clone https://github.com/liliya0226/Winter-Supplement-Caculator-Engine-Liliya.git
    cd Winter-Supplement-Calculator-Engine-Liliya
-2. Run the Setup Script: Create a virtual environment and install dependencies.
+2. Give execution permission to set.sh:
+    ```bash
+    chmod +x set.sh
+3. Run the Setup Script: Create a virtual environment and install dependencies.
     ```bash
     ./set.sh
-3. Run the Application: Start the Flask API and MQTT client.
+3. ### Activate the virtual environment (if not already activated):
+
+- **On Linux/MacOS**:
+  ```bash
+  source venv/bin/activate
+- **On Windows**:
+  ```bash
+  venv\Scripts\activate
+4. Run the Application: Start the Flask API and MQTT client.
     ```bash
     python3 app.py
-4. Submit Data: Use a tool like curl or Postman to send a POST request to the /submit endpoint. For example:
+5. Submit Data: Use a tool like curl or Postman to send a POST request to the /submit endpoint. For example:
     ```bash
     curl -X POST http://127.0.0.1:5000/submit -H "Content-Type: application/json" -d '{"id": <MQTT topic ID>", "numberOfChildren": 2, "familyComposition": "couple", "familyUnitInPayForDecember": true}'
-5. Retrieve Results: Use a GET request to retrieve the calculation results.
+6. Retrieve Results: Use a GET request to retrieve the calculation results.
     ```bash
     curl http://127.0.0.1:5000/result/<MQTT topic ID>
-
 ## Testing
-Tests are implemented using the unittest framework. To execute them, run:
+Tests are implemented using the `unittest` framework. To execute them, run:
 
-    ```bash
-    python -m unittest test_rules_engine 
-
- 
+```bash
+python -m unittest test_rules_engine
