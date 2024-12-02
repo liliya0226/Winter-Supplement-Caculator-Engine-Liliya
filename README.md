@@ -19,13 +19,32 @@ The **Winter Supplement Calculator API** is a Flask-based web application design
 
 ---
 
-### Usage: Backend-Frontend Interaction
+## Workflow
 
-The backend simplifies integration with frontend systems through its REST API.
+This application processes family supplement data through a Flask backend with MQTT for communication. Below is the step-by-step process:
 
-- **Submit Data**: Frontend sends family data using a **POST** request to `/submit`, triggering the supplement calculation.
-- **Fetch Results**: Results are retrieved via a **GET** request to `/result/<topic_id>`.
+1. **Submit Data**  
+   Clients send family data via the `/submit` POST endpoint.
 
+2. **Data Validation**  
+   Flask validates the submitted data to ensure it meets the required format and rules (e.g., valid family composition, non-negative number of children).
+
+3. **Publish to MQTT Input Topic**  
+   The validated data is published to the MQTT input topic:  
+   `BRE/calculateWinterSupplementInput/<topic_id>`.
+
+4. **Process Data via MQTT**  
+   The Flask application's MQTT client listens to the input topic, retrieves the published data, and prepares it for calculation.
+
+5. **Calculate Results**  
+   The backend processes the data using the `calculate_supplement` function, determining the supplement based on eligibility and family structure.
+
+6. **Publish Results to MQTT Output Topic**  
+   The calculated results are published to an MQTT output topic:  
+   `BRE/calculateWinterSupplementOutput/<topic_id>` and stored in the `results` dictionary.
+
+7. **Query Results**  
+   Clients fetch the results using the `/result/<topic_id>` GET endpoint.
 
 ## Prerequisites
 
